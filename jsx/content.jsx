@@ -1,6 +1,9 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
 
+const Form = require('./form.jsx')
+const List = require('./list.jsx')
+
 class Content extends React.Component {
   constructor(props) {
     super(props)
@@ -13,21 +16,10 @@ class Content extends React.Component {
     console.log(ReactDOM.findDOMNode(comments).value)
   }
   render() {
-    this.prompt = 'Please enter your email to win a Sublime Text license'
-    return (
-      <div className="well">
-        <p>{this.prompt}</p>
-        <div className="form-group">
-          Email: <input ref="emailAddress" className="form-control" type="text" placeholder="hi@azat.co"/>
-        </div>
-        <div className="form-group">
-          Comments: <textarea ref="comments" className="form-control"  placeholder="email-webpack"/>
-        </div>
-        <div className="form-group">
-          <a className="btn btn-primary" onClick={this.submit}>Submit</a>
-        </div>
-      </div>
-    )
+    if (true)
+      return <List />
+    else
+      return <Form />;
   }
 }
 
