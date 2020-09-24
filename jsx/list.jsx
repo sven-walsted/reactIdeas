@@ -11,6 +11,12 @@ const List = () =>
             <div className="grid-item">Quantity</div>
             <div className="grid-item">Notes</div>
 
+            <div className="grid-item">7/28/2020</div>
+            <div className="grid-item">Ship Creek</div>
+            <div className="grid-item">Pink</div>
+            <div className="grid-item">3</div>
+            <div className="grid-item">Catch and release</div>
+
             <div className="grid-item">8/6/2020</div>
             <div className="grid-item">Russian River</div>
             <div className="grid-item">Sockeye</div>
