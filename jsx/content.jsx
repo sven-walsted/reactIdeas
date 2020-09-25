@@ -8,10 +8,10 @@ const StatelessButton = require('./stateless-button.jsx')
 class Content extends React.Component {
   constructor(props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
     this.state = {
       displayList: true,
-      buttonLabel: 'Edit'
+      buttonLabel: 'Edit',
+      handleClick: this.handleClick.bind(this)
     }
   }
   handleClick(event) {
@@ -25,10 +25,11 @@ class Content extends React.Component {
     console.log("componentDidMount...")
   }
   render() {
+    // This component's state becomes the children's properties
     if (this.state.displayList)
-      return <div><List /><StatelessButton handleClick={this.handleClick} buttonLabel={this.state.buttonLabel} /></div>
+      return <div><List /><StatelessButton {...this.state} /></div>
     else
-      return <div><Form /><StatelessButton handleClick={this.handleClick} buttonLabel={this.state.buttonLabel} /></div>;
+      return <div><Form /><StatelessButton {...this.state} /></div>;
   }
 }
 
