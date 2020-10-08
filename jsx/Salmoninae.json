@@ -1,0 +1,82 @@
+[
+    {
+        "classsName": "Osteichthyes",
+        "orderName": "Salmoniformes",
+        "family": "Salmoninae",
+        "genus": "Hucho",
+        "species": "taimen",
+        "commonName": "Siberian taimen"
+    },
+    {
+        "classsName": "Osteichthyes",
+        "orderName": "Salmoniformes",
+        "family": "Salmoninae",
+        "genus": "Onchorhynchus",
+        "species": "gorbushca",
+        "commonName": "Pink"
+    },
+    {
+        "classsName": "Osteichthyes",
+        "orderName": "Salmoniformes",
+        "family": "Salmoninae",
+        "genus": "Onchorhynchus",
+        "species": "keta",
+        "commonName": "Chum"
+    },
+    {
+        "classsName": "Osteichthyes",
+        "orderName": "Salmoniformes",
+        "family": "Salmoninae",
+        "genus": "Onchorhynchus",
+        "species": "kisutch",
+        "commonName": "Coho"
+    },
+    {
+        "classsName": "Osteichthyes",
+        "orderName": "Salmoniformes",
+        "family": "Salmoninae",
+        "genus": "Onchorhynchus",
+        "species": "masu",
+        "commonName": "Masu"
+    },
+    {
+        "classsName": "Osteichthyes",
+        "orderName": "Salmoniformes",
+        "family": "Salmoninae",
+        "genus": "Onchorhynchus",
+        "species": "nerka",
+        "commonName": "Sockeye"
+    },
+    {
+        "classsName": "Osteichthyes",
+        "orderName": "Salmoniformes",
+        "family": "Salmoninae",
+        "genus": "Onchorhynchus",
+        "species": "tshawytscha",
+        "commonName": "King"
+    },
+    {
+        "classsName": "Osteichthyes",
+        "orderName": "Salmoniformes",
+        "family": "Salmoninae",
+        "genus": "Salmo",
+        "species": "salar",
+        "commonName": "Atlantic Salmon"
+    },
+    {
+        "classsName": "Osteichthyes",
+        "orderName": "Salmoniformes",
+        "family": "Salmoninae",
+        "genus": "Salvelinux",
+        "species": "alpinus",
+        "commonName": "Arctic Char"
+    },
+    {
+        "classsName": "Osteichthyes",
+        "orderName": "Salmoniformes",
+        "family": "Salmoninae",
+        "genus": "Salvelinux",
+        "species": "malma",
+        "commonName": "Dolly Varden"
+    }
+]

@@ -23,7 +23,11 @@ module.exports = {
   },
   devServer: {
       hot: true,
-      port: 3000
+      host: '0.0.0.0',
+      port: 3000,
+      proxy: {
+        "/resources": "http://localhost:8080/Hello"
+    }
   },
   plugins: [new webpack.HotModuleReplacementPlugin()]
 }
