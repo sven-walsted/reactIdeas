@@ -8,8 +8,9 @@ const StatelessButton = require('./stateless-button.jsx')
 class Content extends React.Component {
   constructor(props) {
     super(props)
-    this.handleKeyUp = this.handleKeyUp.bind(this)
-    this.sendData = this.sendData.bind(this)
+    this.handleAddClick = this.handleAddClick.bind(this)
+    this.handleCancelClick = this.handleCancelClick.bind(this)
+    this.handleSaveClick = this.handleSaveClick.bind(this)
     // fields
     this.handleCommonChange = this.handleCommonChange.bind(this)
     this.handleFamilyChange = this.handleFamilyChange.bind(this)
@@ -17,11 +18,14 @@ class Content extends React.Component {
     this.handleSpeciesChange = this.handleSpeciesChange.bind(this)
     this.state = {
       displayList: true,
-      buttonLabel: 'Add',
-      handleClick: this.handleClick.bind(this),
       handleDeleteClick: this.handleDeleteClick.bind(this),
+      handleUpdateClick: this.handleUpdateClick.bind(this),
       fishes: [],
+      saveMethod: '',
+      id: '',
       commonName: '',
+      className: '',
+      orderName: '',
       familyName: '',
       genusName: '',
       speciesName: ''
@@ -39,20 +43,61 @@ class Content extends React.Component {
   handleSpeciesChange(event) {
     this.setState({ speciesName: event.target.value })
   }
-  handleClick(event) {
-    console.dir(event.target)
+  handleAddClick(event) {
     this.setState({
-      displayList: ((this.state.displayList) ? false : true),
-      buttonLabel: ((this.state.displayList) ? 'List' : 'Add')
+      saveMethod: 'POST',
+      displayList: false
     })
+  }
+  handleCancelClick(event) {
+    this.clearField()
+    this.setState({
+      displayList: true,
+    })
+  }
+  handleSaveClick(event) {
+    this.setState({
+      displayList: true
+    })
+    this.sendData()
+    this.clearField()
+  }
+  handleUpdateClick(event) {
+    console.log("Update ID: " + event.target.value)
+    this.clearField()
+    this.setState({
+      displayList: false,
+    })
+    this.loadDatum(event.target.value)
   }
   handleDeleteClick(event) {
     console.log("Delete ID: " + event.target.value)
     this.deleteData(event.target.value)
   }
-  handleKeyUp(event) {
-    // This will submit form
-    if (event.keyCode == 13) return this.sendData();
+  loadData() {
+    fetch('resources/fish')
+      .then((response) => response.json())
+      .then((fishes) => {
+        console.dir(fishes)
+        this.setState({ fishes: fishes })
+      })
+  }
+  loadDatum(id) {
+    fetch('resources/fish/' + id)
+      .then((response) => response.json())
+      .then((fish) => {
+        console.dir(fish)
+        this.setState({
+          saveMethod: 'PUT',
+          id: fish.id,
+          commonName: fish.commonName,
+          className: fish.className,
+          orderName: fish.orderName,
+          familyName: fish.familyName,
+          genusName: fish.genusName,
+          speciesName: fish.speciesName
+        })
+      })
   }
   sendData() {
     const data = {
@@ -64,45 +109,29 @@ class Content extends React.Component {
       genusName: this.state.genusName,
       speciesName: this.state.speciesName
     }
-    fetch('resources/fish', {
-      method: 'POST',
+    fetch('resources/fish/' + this.state.id, {
+      method: this.state.saveMethod,
       headers: {
         'Content-type': 'application/json'
       },
       body: JSON.stringify(data)
     })
       .then((response) => {
-        /**
-         * Use Case 1: 
-         * List -> Add
-         * Create only -> List;
-         * List -> Delete -> reload list
-         */
         console.log(response.status)
         // if (201 == response.status) {
         //// then created and we can get id, 
         //// or refresh object,
         //// or set this fetch method to PUT.
         //// for update.
-        // } 
-        this.loadData()
-        // Redo this
-        this.setState({
-          displayList: true,
-          buttonLabel: 'Add'
-        })
-        this.clearField()
+        // }
+        // Conceptually doesn't belong here.
+        if (this.state.displayList)
+          this.loadData()
+        else
+          this.loadDatum(this.state.id)
       })
       .catch((error) => {
         console.error(('Error', error));
-      })
-  }
-  loadData() {
-    fetch('resources/fish')
-      .then((response) => response.json())
-      .then((fishes) => {
-        console.dir(fishes)
-        this.setState({ fishes: fishes })
       })
   }
   deleteData(id) {
@@ -119,7 +148,11 @@ class Content extends React.Component {
   }
   clearField() {
     this.setState({
+      saveMethod: '',
+      id: '',
       commonName: '',
+      className: '',
+      orderName: '',
       familyName: '',
       genusName: '',
       speciesName: ''
@@ -131,12 +164,11 @@ class Content extends React.Component {
   }
   render() {
     if (this.state.displayList)
-      return <div className="well"><StatelessButton {...this.state} /><List {...this.state} /></div>
+      return <div className="well"><StatelessButton handleClick={this.handleAddClick} buttonLabel='Add' /><List {...this.state} /></div>
     else
       return (
         <div className="well">
-          <StatelessButton {...this.state} />
-          <form onKeyUp={this.handleKeyUp} >
+          <form>
             <div className="grid-item">
               <label htmlFor='commonName'>Common Name</label>
               <input type='text'
@@ -165,7 +197,8 @@ class Content extends React.Component {
                 onChange={this.handleSpeciesChange}
                 value={this.state.speciesName} />
             </div>
-            <StatelessButton handleClick={this.sendData} buttonLabel='Save' />
+            <StatelessButton handleClick={this.handleCancelClick} buttonLabel='Cancel' />
+            <StatelessButton handleClick={this.handleSaveClick} buttonLabel='Save' />
           </form>
         </div>);
   }

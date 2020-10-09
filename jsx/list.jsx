@@ -5,7 +5,6 @@ const StatelessButton = require('./stateless-button.jsx')
 const FishRow = require('./stateless-fish-row.jsx')
 
 const List = (props) =>
-    // <FishRow {...fish} buttonLabel='Delete' onClick={props.handleDeleteClick} key={fish.id} />
     <table id="t01">
         <tbody>
             <tr>
@@ -20,6 +19,9 @@ const List = (props) =>
             {props.fishes.map((fish) =>
                 <tr key={fish.id}>
                     <td>
+                        <button type='button' onClick={props.handleUpdateClick} value={fish.id} >
+                            Update
+                        </button>
                         <button type='button' onClick={props.handleDeleteClick} value={fish.id} >
                             Delete
                         </button>
