@@ -26,13 +26,13 @@ const List = (props) =>
                             Delete
                         </button>
                     </td>
-                    <td>{fish.commonName}</td>
-                    <td>{fish.familyName}</td>
-                    <td>{fish.genusName}</td>
-                    <td>{fish.speciesName}</td>
+                    <td><span className='pointer' >{fish.commonName}</span></td>
+                    <td><span className='pointer' >{fish.familyName}</span></td>
+                    <td><span className='pointer'>{fish.genusName}</span></td>
+                    <td><span className='pointer'>{fish.speciesName}</span></td>
                 </tr>
             )}
         </tbody>
     </table>;
-
+    
 module.exports = List
