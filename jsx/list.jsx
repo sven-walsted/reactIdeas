@@ -1,36 +1,33 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
 
-const List = () =>
-    <div className="well">
-        <div className="grid-container">
+const Button = require('./stateless-button.jsx')
 
-            <div className="grid-item">Date</div>
-            <div className="grid-item">Location</div>
-            <div className="grid-item">Fish</div>
-            <div className="grid-item">Quantity</div>
-            <div className="grid-item">Notes</div>
-
-            <div className="grid-item">7/28/2020</div>
-            <div className="grid-item">Ship Creek</div>
-            <div className="grid-item">Pink</div>
-            <div className="grid-item">3</div>
-            <div className="grid-item">Catch and release</div>
-
-            <div className="grid-item">8/6/2020</div>
-            <div className="grid-item">Russian River</div>
-            <div className="grid-item">Sockeye</div>
-            <div className="grid-item">2</div>
-            <div className="grid-item">Christain did all the catching.</div>
-
-            <div className="grid-item">8/17/2020</div>
-            <div className="grid-item">Anchor Point</div>
-            <div className="grid-item">Halibut</div>
-            <div className="grid-item">12</div>
-            <div className="grid-item">Successful charter.</div>
-
-        </div>
-
-    </div>;
+const List = (props) =>
+    <table id="t01">
+        <tbody>
+            <tr>
+                <th><Button handleClick={props.handleAddClick} buttonLabel='Add' /></th>
+                <th>Common Name</th>
+                <th>Family</th>
+                <th>Genus</th>
+                <th>Species</th>
+            </tr>
+        </tbody>
+        <tbody>
+            {props.fishes.map((fish) =>
+                <tr key={fish.id}>
+                    <td>
+                        <Button buttonLabel='Update' handleClick={props.handleUpdateClick} recordId={fish.id} />
+                        <Button buttonLabel='Delete' handleClick={props.handleDeleteClick} recordId={fish.id} />
+                    </td>
+                    <td><span className='pointer' >{fish.commonName}</span></td>
+                    <td><span className='pointer' >{fish.familyName}</span></td>
+                    <td><span className='pointer'>{fish.genusName}</span></td>
+                    <td><span className='pointer'>{fish.speciesName}</span></td>
+                </tr>
+            )}
+        </tbody>
+    </table>;
 
 module.exports = List
