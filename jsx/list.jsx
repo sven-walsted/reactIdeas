@@ -1,14 +1,13 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
 
-const StatelessButton = require('./stateless-button.jsx')
-const FishRow = require('./stateless-fish-row.jsx')
+const Button = require('./stateless-button.jsx')
 
 const List = (props) =>
     <table id="t01">
         <tbody>
             <tr>
-                <th></th>
+                <th><Button handleClick={props.handleAddClick} buttonLabel='Add' /></th>
                 <th>Common Name</th>
                 <th>Family</th>
                 <th>Genus</th>
@@ -19,12 +18,8 @@ const List = (props) =>
             {props.fishes.map((fish) =>
                 <tr key={fish.id}>
                     <td>
-                        <button type='button' onClick={props.handleUpdateClick} value={fish.id} >
-                            Update
-                        </button>
-                        <button type='button' onClick={props.handleDeleteClick} value={fish.id} >
-                            Delete
-                        </button>
+                        <Button buttonLabel='Update' handleClick={props.handleUpdateClick} recordId={fish.id} />
+                        <Button buttonLabel='Delete' handleClick={props.handleDeleteClick} recordId={fish.id} />
                     </td>
                     <td><span className='pointer' >{fish.commonName}</span></td>
                     <td><span className='pointer' >{fish.familyName}</span></td>
@@ -34,5 +29,5 @@ const List = (props) =>
             )}
         </tbody>
     </table>;
-    
+
 module.exports = List

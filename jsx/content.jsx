@@ -1,14 +1,13 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
 
+const Button = require('./stateless-button.jsx')
 const Form = require('./form.jsx')
 const List = require('./list.jsx')
-const StatelessButton = require('./stateless-button.jsx')
 
 class Content extends React.Component {
   constructor(props) {
     super(props)
-    this.handleAddClick = this.handleAddClick.bind(this)
     this.handleCancelClick = this.handleCancelClick.bind(this)
     this.handleSaveClick = this.handleSaveClick.bind(this)
     // fields
@@ -18,6 +17,7 @@ class Content extends React.Component {
     this.handleSpeciesChange = this.handleSpeciesChange.bind(this)
     this.state = {
       displayList: true,
+      handleAddClick: this.handleAddClick.bind(this),
       handleDeleteClick: this.handleDeleteClick.bind(this),
       handleUpdateClick: this.handleUpdateClick.bind(this),
       fishes: [],
@@ -164,7 +164,7 @@ class Content extends React.Component {
   }
   render() {
     if (this.state.displayList)
-      return <div className="well"><StatelessButton handleClick={this.handleAddClick} buttonLabel='Add' /><List {...this.state} /></div>
+      return <div className="well"><List {...this.state} /></div>
     else
       return (
         <div className="well">
@@ -197,8 +197,8 @@ class Content extends React.Component {
                 onChange={this.handleSpeciesChange}
                 value={this.state.speciesName} />
             </div>
-            <StatelessButton handleClick={this.handleCancelClick} buttonLabel='Cancel' />
-            <StatelessButton handleClick={this.handleSaveClick} buttonLabel='Save' />
+            <Button handleClick={this.handleCancelClick} buttonLabel='Cancel' />
+            <Button handleClick={this.handleSaveClick} buttonLabel='Save' />
           </form>
         </div>);
   }

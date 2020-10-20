@@ -1,7 +1,10 @@
 const React = require('react')
 const ReactDOM = require('react-dom')
 
-const StatelessButton = (props) =>
-    <button type='button' onClick={props.handleClick} value={props.id} >{props.buttonLabel}</button>;
+const Button = (props) =>
+    <button type='button'
+        className='btn-default btn'
+        onClick={props.handleClick}
+        value={props.recordId} >{props.buttonLabel}</button>;
 
-module.exports = StatelessButton
+module.exports = Button
