@@ -5,6 +5,7 @@ const Button = (props) =>
     <button type='button'
         className='btn-default btn'
         onClick={props.handleClick}
-        value={props.recordId} >{props.buttonLabel}</button>;
+        value={props.recordId} >{props.buttonLabel}
+    </button>;
 
 module.exports = Button

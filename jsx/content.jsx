@@ -8,15 +8,19 @@ const List = require('./list.jsx')
 class Content extends React.Component {
   constructor(props) {
     super(props)
-    this.handleCancelClick = this.handleCancelClick.bind(this)
-    this.handleSaveClick = this.handleSaveClick.bind(this)
-    // fields
-    this.handleCommonChange = this.handleCommonChange.bind(this)
-    this.handleFamilyChange = this.handleFamilyChange.bind(this)
-    this.handleGenusChange = this.handleGenusChange.bind(this)
-    this.handleSpeciesChange = this.handleSpeciesChange.bind(this)
     this.state = {
+      activeRecordId: '',
       displayList: true,
+      // button cmds
+      handleCancelClick: this.handleCancelClick.bind(this),
+      handleSaveClick: this.handleSaveClick.bind(this),
+      // input fields
+      handleCommonChange: this.handleCommonChange.bind(this),
+      handleFamilyChange: this.handleFamilyChange.bind(this),
+      handleGenusChange: this.handleGenusChange.bind(this),
+      handleSpeciesChange: this.handleSpeciesChange.bind(this),
+      // handlers
+      handleSelectRecord: this.handleSelectRecord.bind(this),
       handleAddClick: this.handleAddClick.bind(this),
       handleDeleteClick: this.handleDeleteClick.bind(this),
       handleUpdateClick: this.handleUpdateClick.bind(this),
@@ -31,10 +35,27 @@ class Content extends React.Component {
       speciesName: ''
     }
   }
+  handleSelectRecord(record) {
+    console.log('recordId: ' + record.id)
+    this.setState({ 
+      saveMethod: 'PUT',
+      activeRecordId: record.id,
+      // duplicate: refactor
+      id: record.id,
+      commonName: record.commonName ,
+      className: record.className,
+      orderName: record.orderName,
+      familyName: record.familyName,
+      genusName: record.genusName,
+      speciesName: record.speciesName
+    })
+  }
   handleCommonChange(event) {
+    console.log('Change commonName: ' + event.target.value)
     this.setState({ commonName: event.target.value })
   }
   handleFamilyChange(event) {
+    console.log('Change familyName: ' + event.target.value)
     this.setState({ familyName: event.target.value })
   }
   handleGenusChange(event) {
@@ -56,6 +77,7 @@ class Content extends React.Component {
     })
   }
   handleSaveClick(event) {
+    console.log('handleSaveClick')
     this.setState({
       displayList: true
     })
@@ -149,6 +171,7 @@ class Content extends React.Component {
   clearField() {
     this.setState({
       saveMethod: '',
+      activeRecordId: '',
       id: '',
       commonName: '',
       className: '',
@@ -173,32 +196,32 @@ class Content extends React.Component {
               <label htmlFor='commonName'>Common Name</label>
               <input type='text'
                 name='commonName'
-                onChange={this.handleCommonChange}
+                onChange={this.state.handleCommonChange}
                 value={this.state.commonName} />
             </div>
             <div className="grid-item">
               <label htmlFor='familyName'>Family</label>
               <input type='text'
                 name='familyName'
-                onChange={this.handleFamilyChange}
+                onChange={this.state.handleFamilyChange}
                 value={this.state.familyName} />
             </div>
             <div className="grid-item">
               <label htmlFor='genusName'>Genus</label>
               <input type='text'
                 name='genusName'
-                onChange={this.handleGenusChange}
+                onChange={this.state.handleGenusChange}
                 value={this.state.genusName} />
             </div>
             <div className="grid-item">
               <label htmlFor='speciesName'>Species</label>
               <input type='text'
                 name='speciesName'
-                onChange={this.handleSpeciesChange}
+                onChange={this.state.handleSpeciesChange}
                 value={this.state.speciesName} />
             </div>
-            <Button handleClick={this.handleCancelClick} buttonLabel='Cancel' />
-            <Button handleClick={this.handleSaveClick} buttonLabel='Save' />
+            <Button handleClick={this.state.handleCancelClick} buttonLabel='Cancel' />
+            <Button handleClick={this.state.handleSaveClick} buttonLabel='Save' />
           </form>
         </div>);
   }
