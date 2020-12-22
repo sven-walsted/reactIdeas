@@ -5,10 +5,34 @@ const Button = require('./stateless-button.jsx')
 const Form = require('./form.jsx')
 const List = require('./list.jsx')
 
+const moneyValidation = money => {
+  console.log('moneyValidation: ' + money)
+  if (!money) {
+    return "Money is required";
+  }
+  if (money < 0) {
+    return "Money must be positive";
+  }
+  if (money > 10000) {
+    return "You're spending too much money!";
+  }
+  const r = /^\$?[0-9]+(\.[0-9][0-9])?$/
+  console.log('test:' + r.test(money))
+  if (!r.test(money)) {
+    return "That ain't money, fool"
+  }
+  return null;
+}
+
+const validate = {
+  guideCost: moneyValidation
+};
+
 class Content extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
+      errors: '',
       activeRecordId: '',
       displayList: true,
       // button cmds
@@ -19,11 +43,13 @@ class Content extends React.Component {
       handleFamilyChange: this.handleFamilyChange.bind(this),
       handleGenusChange: this.handleGenusChange.bind(this),
       handleSpeciesChange: this.handleSpeciesChange.bind(this),
+      handleGuideCostChange: this.handleGuideCostChange.bind(this),
       // handlers
       handleSelectRecord: this.handleSelectRecord.bind(this),
       handleAddClick: this.handleAddClick.bind(this),
       handleDeleteClick: this.handleDeleteClick.bind(this),
       handleUpdateClick: this.handleUpdateClick.bind(this),
+      handleBlur: this.handleBlur.bind(this),
       fishes: [],
       saveMethod: '',
       id: '',
@@ -32,22 +58,24 @@ class Content extends React.Component {
       orderName: '',
       familyName: '',
       genusName: '',
-      speciesName: ''
+      speciesName: '',
+      guideCost: ''
     }
   }
   handleSelectRecord(record) {
     console.log('recordId: ' + record.id)
-    this.setState({ 
+    this.setState({
       saveMethod: 'PUT',
       activeRecordId: record.id,
       // duplicate: refactor
       id: record.id,
-      commonName: record.commonName ,
+      commonName: record.commonName,
       className: record.className,
       orderName: record.orderName,
       familyName: record.familyName,
       genusName: record.genusName,
-      speciesName: record.speciesName
+      speciesName: record.speciesName,
+      guideCost: ''
     })
   }
   handleCommonChange(event) {
@@ -64,7 +92,12 @@ class Content extends React.Component {
   handleSpeciesChange(event) {
     this.setState({ speciesName: event.target.value })
   }
+  handleGuideCostChange(event) {
+    console.log('handleGuideCostChange')
+    this.setState({ guideCost: event.target.value })
+  }
   handleAddClick(event) {
+    this.clearField()
     this.setState({
       saveMethod: 'POST',
       displayList: false
@@ -96,6 +129,15 @@ class Content extends React.Component {
     console.log("Delete ID: " + event.target.value)
     this.deleteData(event.target.value)
   }
+  handleBlur(event) {
+    const { name, value } = event.target;
+    console.log('handleBlur: ' + name + "|" + value)
+    const error = validate[name](value);
+    console.dir(error)
+    this.setState({
+      errors: error
+    })
+  }
   loadData() {
     fetch('resources/fish')
       .then((response) => response.json())
@@ -118,6 +160,7 @@ class Content extends React.Component {
           familyName: fish.familyName,
           genusName: fish.genusName,
           speciesName: fish.speciesName
+          // guideCost: ''
         })
       })
   }
@@ -130,6 +173,7 @@ class Content extends React.Component {
       familyName: this.state.familyName,
       genusName: this.state.genusName,
       speciesName: this.state.speciesName
+      // guideCost: ''
     }
     fetch('resources/fish/' + this.state.id, {
       method: this.state.saveMethod,
@@ -178,7 +222,8 @@ class Content extends React.Component {
       orderName: '',
       familyName: '',
       genusName: '',
-      speciesName: ''
+      speciesName: '',
+      guideCost: ''
     })
   }
   componentDidMount() {
@@ -197,7 +242,8 @@ class Content extends React.Component {
               <input type='text'
                 name='commonName'
                 onChange={this.state.handleCommonChange}
-                value={this.state.commonName} />
+                value={this.state.commonName}
+                required />
             </div>
             <div className="grid-item">
               <label htmlFor='familyName'>Family</label>
@@ -219,6 +265,16 @@ class Content extends React.Component {
                 name='speciesName'
                 onChange={this.state.handleSpeciesChange}
                 value={this.state.speciesName} />
+            </div>
+            <div className="grid-item">
+              <label htmlFor='guideCost'>Guide Cost ($)</label>
+              <input type='text'
+                id="guideCost"
+                name='guideCost'
+                onChange={this.state.handleGuideCostChange}
+                onBlur={this.state.handleBlur}
+                value={this.state.guideCost} />
+                {this.state.errors}
             </div>
             <Button handleClick={this.state.handleCancelClick} buttonLabel='Cancel' />
             <Button handleClick={this.state.handleSaveClick} buttonLabel='Save' />
